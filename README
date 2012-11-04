@@ -1,0 +1,13 @@
+Practica de Laboratorio #8: La herramienta Guard 
+
+Matrices
+
+Clase para realizar operaciones aritmeticas con matrices.
+Utiliza el concepto de herencia.
+
+Clase desarrollada con rspec siguiendo la filosofia TDD
+Contiene tambien pruebas unitarias Unit Testing
+La clase se compila con la herramienta Travis de integracion continua.
+Se comprueba la portabilidad entre distintas plataformas y versiones de Ruby.
+
+Se deben poner los ficheros en spec para que se ejecuten ante cualquier modificacion
