@@ -1,59 +1,28 @@
 require 'matrix'
-require 'fraction'
-require 'multidimensionalarray'
 
-describe MultidimensionalArray do
-  before :all do
-  	@im = IntegerMatrix.new(3,3)
-    for i in 0...@im.numberOfRows
-  	  for j in 0...@im.numberOfColumns
-  			@im[i,j] = 1 
-  	  end
-  	end
-  	@in = IntegerMatrix.new(3,2)
-    for i in 0...@in.numberOfRows
-  	  for j in 0...@in.numberOfColumns
-  			@in[i,j] = 1 
-  	  end
-  	end
-		@ir = IntegerMatrix.new(3,2)
-    for i in 0...@ir.numberOfRows
-  	  for j in 0...@ir.numberOfColumns
-  			@ir[i,j] = 3 
-  	  end
-  	end
+describe Matrix do
+	
+	before :each do
+	end
 
-  	@fm = FractionMatrix.new(3,3)
-    for i in 0...@fm.numberOfRows
-  	  for j in 0...@fm.numberOfColumns
-  			@fm[i,j] = Fraction.new(1, 1) 
-  	  end
-  	end
-  	@fn = FractionMatrix.new(3,2)
-    for i in 0...@fn.numberOfRows
-  	  for j in 0...@fn.numberOfColumns
-  			@fn[i,j] = Fraction.new(1, 1)
-  	  end
-  	end
-		@fr = FractionMatrix.new(3,2)
-    for i in 0...@fr.numberOfRows
-  	  for j in 0...@fr.numberOfColumns
-  			@fr[i,j] = Fraction.new(3, 1)
-  	  end
-  	end
+	it "Las dimensiones de la matriz deben ser mayores que cero" do
+		expect {Matrix.new(0, 1)}.to raise_error(IndexError)
+		expect {Matrix.new(0, 1, 20)}.to raise_error(IndexError)
+		expect {Matrix.new(-1, 4)}.to raise_error(IndexError)
+		expect {Matrix.new(-1, 4, 17)}.to raise_error(IndexError)
+	end
 
-  end
-  
-  it "Se debe poder multiplicar una matriz de Enteros" do
-	  #@im = [[1,2,3],[4, 5, 6], [7, 8, 9]] 
-	  #@in = [[1,1],[1, 1], [1,1]] 
-  	#(@im * @in).should == [[6,6], [15,15], [24, 24]] 
-	  (@im * @in).should == @ir 
-  end
+	it "Se debe poder sumar dos matrices de enteros" do
+		(Matrix.new(3, 2, 4) + Matrix.new(3, 2, 1)).should == Matrix.new(3, 2, 5)
+		(Matrix.new(4, 7, -3) + Matrix.new(4, 7, -4)).should == Matrix.new(4, 7, -7)
+		(Matrix.new(20, 43, -1) + Matrix.new(20, 43, 5)).should == Matrix.new(20, 43, 4)
+		(Matrix.new(12, 10, 1) + Matrix.new(12, 10, 21)).should_not == Matrix.new(12, 10, 19)
+		expect {Matrix.new(5, 8, -1) + Matrix.new(8, 5, 5)}.to raise_error(IndexError)
+		expect {(Matrix.new(5, 8, -1) + Matrix.new(5, 8, 5)) == Matrix.new(8, 5, 4)}.to raise_error(IndexError)
+	end
 
-  it "Se debe poder multiplicar dos matrices de Racionales" do
-	  (@fm * @fn).should == @fr 
-  end
+	it "Se debe poder sumar dos matrices de racionales" do
+		(Matrix.new(3, 2, Fraction.new(1, 2)) + Matrix.new(3, 2, Fraction.new(1, 6))).should == Matrix.new(3, 2, Fraction.new(8, 12))
+	end
 
 end
-

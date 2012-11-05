@@ -1,76 +1,40 @@
-require 'multidimensionalarray'
 require 'fraction'
 
 class Matrix
-  attr_reader :numberOfRows
-  attr_reader :numberOfColumns
+  attr_reader :numberRows
+  attr_reader :numberColumns
 
-  def initialize(numberOfRows, numberOfColumns)
-	  raise IndexError if numberOfRows <= 0 and numberOfColumns <= 0 
-    @numberOfRows = numberOfRows
-    @numberOfColumns = numberOfColumns
-    @array = MultidimensionalArray.new(numberOfRows, numberOfColumns)
+  def initialize(*args)
+	  raise IndexError unless ((args[0] > 0) && (args[1] > 0))
+    @numberRows = args[0]
+    @numberColumns = args[1]
+    @data = Array.new(@numberRows, Array.new(@numberColumns, args[2])) if (args.size == 3)
+    @data = Array.new(@numberRows, Array.new(@numberColumns)) if (args.size == 2)
   end
-
-  def [](i, j)
-    @array[i,j]
-  end
-
-  def []=(i, j, value)
-    @array[i,j] = value
-  end
-
-  def *(mat)
-	  raise IndexError unless @numberOfColumns == mat.numberOfRows
-    result = Matrix.new(@numberOfRows, mat.numberOfColumns)
-    for i in 0 ... @numberOfRows
-      for j in 0 ... mat.numberOfColumns
-        sum = zero
-        for k in 0 ... @numberOfColumns
-          sum += self[i,k] * mat[k,j]
-        end
-        result[i,j] = sum
-      end
-    end
-    return result
-  end
-
-	def to_s
-	 "#{self.class} - #{@array}"
+	
+	def [] (index)
+		@data[index]
 	end
 
-	def zero
-	  raise "The zero must be defined for each team"
-	end
-
-	def ==(other)
-	  if other.is_a? Matrix
-		  if @numberOfRows == other.numberOfRows && @numberOfColumns == other.numberOfColumns
-			  res = true
-        for i in 0 ... @numberOfRows
-          for j in 0 ... @numberOfColumns
-            res = res && (self[i,j] == other [i,j])
-          end
-        end
-      else
-			  false
-		  end
-		else
-		  false
+	def == (m)
+		raise IndexError unless ((@numberRows == m.numberRows) && (@numberColumns == m.numberColumns))
+		for i in (0 ... @numberRows)
+			for j in (0 ... @numberColumns)
+				return false if (self[i][j] != m[i][j])
+			end
 		end
+		return true
 	end
 
-end
-
-
-class FractionMatrix < Matrix
-  def zero
-	  Fraction.new(0,1)
+	def + (m)
+		raise IndexError unless ((@numberRows == m.numberRows) && (@numberColumns == m.numberColumns))
+		result = Matrix.new(@numberRows, @numberColumns)
+		for i in (0 ... @numberRows)
+			for j in (0 ... @numberColumns)
+				result[i][j] = self[i][j] + m[i][j]
+			end
+		end
+		return result
 	end
-end
 
-class IntegerMatrix < Matrix
-  def zero
-	  0
-	end
 end
