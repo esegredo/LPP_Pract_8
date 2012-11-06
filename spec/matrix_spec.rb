@@ -35,11 +35,13 @@ describe Matrix do
 	it "Se debe poder multiplicar dos matrices de Enteros" do
 		(Matrix.new(3, 2, 2) * Matrix.new(2, 3, 3)).should == Matrix.new(3, 3, 12)
 		(Matrix.new(3, 2, 7) * Matrix.new(2, 4, 3)).should == Matrix.new(3, 4, 42)
+		expect {Matrix.new(3, 2, 7) * Matrix.new(3, 4, 3)}.to raise_error(IndexError)
 	end
 
 	it "Se debe poder multiplicar dos matrices de Racionales" do
 		(Matrix.new(3, 2, Fraction.new(1, 2)) * Matrix.new(2, 3, Fraction.new(3, 5))).should == Matrix.new(3, 3, Fraction.new(6, 10))
 		(Matrix.new(3, 2, Fraction.new(3, 5)) * Matrix.new(2, 4, Fraction.new(7, 6))).should == Matrix.new(3, 4, Fraction.new(42, 30))
+		expect {Matrix.new(3, 2, Fraction.new(3, 5)) * Matrix.new(4, 4, Fraction.new(7, 6))}.to raise_error(IndexError)
 	end
 
 end
