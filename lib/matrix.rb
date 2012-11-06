@@ -10,6 +10,15 @@ class Matrix
 		@numberColumns = args[1]
 		@data = Array.new(@numberRows, Array.new(@numberColumns, args[2])) if (args.size == 3)
 		@data = Array.new(@numberRows, Array.new(@numberColumns)) if (args.size == 2)
+		if (args.size > 3)
+			raise IndexError unless ((args.size - 2) == (@numberRows * @numberColumns))
+			@data = Array.new(@numberRows, Array.new(@numberColumns))
+			for i in (0 ... @numberRows)
+				for j in (0 ... @numberColumns)
+					@data[i][j] = args[i * @numberColumns + j + 2]
+				end
+			end
+		end	
 	end
 	
 	def [] (index)

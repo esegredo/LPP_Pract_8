@@ -18,9 +18,11 @@ describe Matrix do
 		(Matrix.new(3, 2, 4) + Matrix.new(3, 2, 1)).should == Matrix.new(3, 2, 5)
 		(Matrix.new(4, 7, -3) + Matrix.new(4, 7, -4)).should == Matrix.new(4, 7, -7)
 		(Matrix.new(20, 43, -1) + Matrix.new(20, 43, 5)).should == Matrix.new(20, 43, 4)
+		(Matrix.new(2, 2, 1, 2, 3, 4) + Matrix.new(2, 2, 5, 6, 7, 8)).should == Matrix.new(2, 2, 6, 8, 10, 12)
 		(Matrix.new(12, 10, 1) + Matrix.new(12, 10, 21)).should_not == Matrix.new(12, 10, 19)
 		expect {Matrix.new(5, 8, -1) + Matrix.new(8, 5, 5)}.to raise_error(IndexError)
 		expect {(Matrix.new(5, 8, -1) + Matrix.new(5, 8, 5)) == Matrix.new(8, 5, 4)}.to raise_error(IndexError)
+		expect {Matrix.new(2, 2, 1, 2, 3)}.to raise_error(IndexError)
 	end
 
 	it "Se debe poder sumar dos matrices de Racionales" do
@@ -28,8 +30,10 @@ describe Matrix do
 		(Matrix.new(4, 7, Fraction.new(-3, 4)) + Matrix.new(4, 7, Fraction.new(-4, 2))).should == Matrix.new(4, 7, Fraction.new(-22, 8))
 		(Matrix.new(20, 43, Fraction.new(-1, 2)) + Matrix.new(20, 43, Fraction.new(8, 4))).should == Matrix.new(20, 43, Fraction.new(12, 8))
 		(Matrix.new(12, 10, Fraction.new(1, 2)) + Matrix.new(12, 10, Fraction.new(1, 2))).should_not == Matrix.new(12, 10, Fraction.new(1, 3))
+		(Matrix.new(2, 2, Fraction.new(1, 2), Fraction.new(1, 3), Fraction.new(1, 4), Fraction.new(1, 5)) + Matrix.new(2, 2, Fraction.new(1, 6), Fraction.new(1, 7), Fraction.new(1, 8), Fraction.new(1, 9))).should == Matrix.new(2, 2, Fraction.new(8, 12), Fraction.new(10, 21), Fraction.new(12, 32), Fraction.new(14, 45))
 		expect {Matrix.new(5, 8, Fraction.new(-1, 2)) + Matrix.new(8, 5, Fraction.new(5, 2))}.to raise_error(IndexError)
 		expect {(Matrix.new(5, 8, Fraction.new(-1, 2)) + Matrix.new(5, 8, Fraction.new(5, 2))) == Matrix.new(8, 5, Fraction.new(4, 7))}.to raise_error(IndexError)
+		expect {Matrix.new(2, 2, Fraction.new(1, 2), Fraction.new(3, 4), Fraction.new(7, 9))}.to raise_error(IndexError)
 	end
 
 	it "Se debe poder multiplicar dos matrices de Enteros" do
